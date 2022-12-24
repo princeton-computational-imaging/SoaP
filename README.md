@@ -1,4 +1,6 @@
 # SoaP
-Official code repository for the work: "Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography"
+Official code repository for: "Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography"
 
-TBD
+Project Page: https://light.princeton.edu/publication/soap/
+
+TBD: We will publish code here as soon as we can
