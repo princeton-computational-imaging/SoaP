@@ -58,7 +58,7 @@ You can download the long-burst data used in the paper (and extra bonus scenes) 
 We recommend you unzip these folders and place them into `\data`
 
 ## App:
-**tbd** : I'm working on it! I need to clean up a lot of code but will add it soon (less than a week from now)
+Want to record your own long-burst data? See [!App](https://github.com/princeton-computational-imaging/SoaP/tree/main/!App) for details!
 
 
 Good luck have fun,  
