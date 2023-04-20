@@ -50,13 +50,21 @@ For other training arguments, see the argument parser section of `\train.py`.
 You can download the long-burst data used in the paper (and extra bonus scenes) via the following links:
 
 1. Shade map used for lens shading compensation (**important**, see paper supplemental for more information): [shade_map.npy](https://soap.cs.princeton.edu/shade_map.npy)  
- ![xcode](!figs/scenes-thumb.png)  
+<p align="center">
+  <img style="width:100%" src="./!figs/scenes-thumb.png">
+</p>  
  2. Main scenes: [scenes.zip](https://soap.cs.princeton.edu/scenes.zip)  
- ![xcode](!figs/experiments-thumb.png)  
+<p align="center">
+  <img style="width:100%" src="./!figs/experiments-thumb.png">
+</p>  
  3. Supplemental experiment scenes: [experiments.zip](https://soap.cs.princeton.edu/experiments.zip)  
- ![xcode](!figs/extra-thumb.png)  
+<p align="center">
+  <img style="width:100%" src="./!figs/extra-thumb.png">
+</p>   
  4. Extra un-used (but neat) scenes: [extra.zip](https://soap.cs.princeton.edu/extra.zip)  
-![xcode](!figs/synth-thumb.png)  
+<p align="center">
+  <img style="width:100%" src="./!figs/synth-thumb.png">
+</p>  
  5. Synthetic rendered data (with scanned object meshes): [synthetic.zip](https://soap.cs.princeton.edu/synthetic.zip)  
  
 
