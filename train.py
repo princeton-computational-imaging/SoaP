@@ -45,10 +45,13 @@ class BundleDataset(Dataset):
             intrinsics_ratio = 1.0
         else: # rescale intrinsics by ratio from RGB to RAW
             intrinsics_ratio = bundle['raw_0']['height'] / bundle['rgb_0']['height']
+
+        if args.no_phone_depth:    
+            self.intrinsics = torch.tensor(np.array([bundle[f'rgb_{i}']['intrinsics'] for i in range(bundle['num_rgb_frames'])])) # T,3,3
+            self.intrinsics[:,:3,:2] = self.intrinsics[:,:3,:2] * intrinsics_ratio
+        else:
+            self.intrinsics = torch.tensor(np.array([bundle[f'depth_{i}']['intrinsics'] for i in range(bundle['num_depth_frames'])]))
             
-        self.intrinsics = torch.tensor(np.array([bundle[f'rgb_{i}']['intrinsics'] for i in range(bundle['num_rgb_frames'])])) # T,3,3
-        self.intrinsics[:,:3,:2] = self.intrinsics[:,:3,:2] * intrinsics_ratio
-        
         if args.no_raw: # use processed RGB
             self.rgb_volume = (self.processed_rgb_volume).float()
             self.rgb_volume = self.rgb_volume - self.rgb_volume.min()
