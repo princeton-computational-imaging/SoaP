@@ -64,6 +64,7 @@ def process_raw(npz_file, raw_name):
             raw_image[::2,1::2] = A2
             raw_image[1::2,::2] = A1
 
+        raw_image = raw_image.astype(np.uint16)
         raw_frame = {'frame_count' : frame_count,
                      'timestamp' : timestamp,
                      'height' : height,
@@ -116,6 +117,7 @@ def process_rgb(npz_file, rgb_name):
         except:
             raise Exception("RGB format not understood.")
 
+        rgb_image = rgb_image.astype(np.uint8)
         rgb_frame = {'frame_count' : frame_count,
                      'timestamp' : timestamp,
                      'height' : height,
@@ -160,6 +162,7 @@ def process_depth(npz_file, depth_name):
         depth_image = struct.unpack('e'* ((len(depth_image)) // 2), depth_image)
         depth_image = np.reshape(depth_image, (height, width))
         depth_image = np.flip(depth_image.swapaxes(0,1), 1) # make vertical
+        depth_image = depth_image.astype(np.float16)
 
         depth_frame = {'frame_count' : frame_count,
                        'timestamp' : timestamp,
@@ -280,10 +283,7 @@ def main():
             motion_name = join(bundle_name, "motion.bin") 
             rgb_name = join(bundle_name, "imageRGB.bin")
             raw_name = join(bundle_name, "imageRAW.bin")
-            depth_name = join(bundle_name, "depth.bin") 
-            
-            save_path = join(split(bundle_name)[0], "processed-" + split(bundle_name)[1])
-            os.makedirs(save_path, exist_ok=True)
+            depth_name = join(bundle_name, "depth.bin")
 
             npz_file = {}
             
@@ -291,7 +291,14 @@ def main():
             process_motion(npz_file, motion_name)
             process_rgb(npz_file, rgb_name)
             process_raw(npz_file, raw_name)
-            match_timestamps(npz_file)
+            try:
+                match_timestamps(npz_file)
+            except Exception as e:
+                print(f"Skipping {bundle_name} due to:\n{e}.")
+                continue
+
+            save_path = join(split(bundle_name)[0], "processed-" + split(bundle_name)[1])
+            os.makedirs(save_path, exist_ok=True)
 
             # Save first frame preview
             fig = plt.figure(figsize=(14, 30)) 
@@ -332,7 +339,7 @@ def main():
             plt.close()
 
             # Save bundle
-            np.savez(join(save_path, "frame_bundle"), **npz_file)
+            np.savez_compressed(join(save_path, "frame_bundle"), **npz_file)
         
         else:
             # Process only motion bundle

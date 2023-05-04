@@ -23,7 +23,7 @@ class BundleDataset(Dataset):
         bundle = dict(np.load(args.bundle_path, allow_pickle=True))
         utils.de_item(bundle)
 
-        raw_frames = torch.tensor(np.array([bundle[f'raw_{i}']['raw'] for i in range(bundle['num_raw_frames'])]))[None]  # B,T,H,W
+        raw_frames = torch.tensor(np.array([bundle[f'raw_{i}']['raw'] for i in range(bundle['num_raw_frames'])]).astype(np.int32))[None]  # B,T,H,W
         if args.no_shade_map or args.no_raw:
             pass # no shade map needed
         else:
