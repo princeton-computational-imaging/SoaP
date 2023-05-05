@@ -475,6 +475,9 @@ class ValidationCallback(pl.Callback):
             # rgb, rgb_raw, rgb_processed, depth, depth_img, depth_lidar, depth_lidar_img = model.generate_imgs(frame, u_lims=[0.4,0.6], v_lims=[0.4,0.6])
             # model.logger.experiment.add_image(f'gt/{i}_rgb_raw_zoom', rgb_raw, global_step=trainer.global_step)
             # model.logger.experiment.add_image(f'gt/{i}_rgb_processed_zoom', rgb_processed, global_step=trainer.global_step)
+        
+        if model.args.save_video:
+            os.makedirs(f"video/{model.args.name}", exist_ok=True)
             
     def on_train_end(self, trainer, model):
         checkpoint_dir = os.path.join("checkpoints", args.name, "last.ckpt")
