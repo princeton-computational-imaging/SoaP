@@ -5,11 +5,13 @@ This is the official code repository for the work: [Shakes on a Plane: Unsupervi
 
 If you use parts of this work, or otherwise take inspiration from it, please considering citing our paper:
 ```
-@article{chugunov2022shakes,
-  title={Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography},
-  author={Chugunov, Ilya and Zhang, Yuxuan and Heide, Felix},
-  journal={arXiv preprint arXiv:2212.12324},
-  year={2022}
+@InProceedings{Chugunov_2023_CVPR,
+    author    = {Chugunov, Ilya and Zhang, Yuxuan and Heide, Felix},
+    title     = {Shakes on a Plane: Unsupervised Depth Estimation From Unstabilized Photography},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2023},
+    pages     = {13240-13251}
 }
 ```
 
