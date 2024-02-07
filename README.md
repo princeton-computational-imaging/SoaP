@@ -1,7 +1,7 @@
 
 # Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography
 
-This is the official code repository for the work: [Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography](https://light.princeton.edu/publication/soap/), to be presented at CVPR 2023.
+This is the official code repository for the work: [Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography](https://light.princeton.edu/publication/soap/), presented at CVPR 2023.
 
 If you use parts of this work, or otherwise take inspiration from it, please considering citing our paper:
 ```
@@ -45,8 +45,6 @@ We recommend you start by going through `0_data_format.ipynb` to download a samp
 Next launch `1_reconstruction.ipynb` to train a SoaP model and visualize its outputs.
 
 For other training arguments, see the argument parser section of `\train.py`.
-
-**tbd** : I plan to add tutorials for how to train a SoaP model with arbitrary video files (e.g. Apple Live Photos or Android Motion Photos), though these do not always produce reasonable depth outputs
 
 ## Data:
 You can download the long-burst data used in the paper (and extra bonus scenes) via the following links:
