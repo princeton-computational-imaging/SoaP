@@ -22,8 +22,9 @@ class BundleDataset(Dataset):
     def __init__(self, args):
         bundle = dict(np.load(args.bundle_path, allow_pickle=True))
         utils.de_item(bundle)
-
-        raw_frames = torch.tensor(np.array([bundle[f'raw_{i}']['raw'] for i in range(bundle['num_raw_frames'])]).astype(np.int32))[None]  # B,T,H,W
+        
+        if not args.no_raw:
+            raw_frames = torch.tensor(np.array([bundle[f'raw_{i}']['raw'] for i in range(bundle['num_raw_frames'])]).astype(np.int32))[None]  # B,T,H,W
         if args.no_shade_map or args.no_raw:
             pass # no shade map needed
         else:
@@ -31,10 +32,15 @@ class BundleDataset(Dataset):
             raw_frames = raw_frames * shade_map
         
         self.motion = bundle['motion']
-        self.frame_timestamps = torch.tensor([bundle[f'raw_{i}']['timestamp'] for i in range(bundle['num_raw_frames'])])
-        self.motion_timestamps = torch.tensor(self.motion['timestamp'])
+        if args.no_device_rotations:
+            self.frame_timestamps = torch.tensor(np.linspace(0,1, bundle['num_rgb_frames']))
+            self.motion_timestamps = torch.tensor(np.linspace(0,1, bundle['num_rgb_frames']))
+            self.quaternions = torch.tensor(np.repeat([[0,0,0,1.0]], bundle['num_rgb_frames'], axis=0)).float()
+        else:
+            self.frame_timestamps = torch.tensor([bundle[f'raw_{i}']['timestamp'] for i in range(bundle['num_rgb_frames'])])
+            self.motion_timestamps = torch.tensor(self.motion['timestamp'])
+            self.quaternions = torch.tensor(self.motion['quaternion']) # T',4, has different timestamps from frames
 
-        self.quaternions = torch.tensor(self.motion['quaternion']) # T',4, has different timestamps from frames
         self.reference_quaternion = utils.multi_interp(self.frame_timestamps[0:1], self.motion_timestamps, self.quaternions) # quaternion at frame 0
         self.reference_rotation = utils.convert_quaternions_to_rot(self.reference_quaternion)
         
@@ -48,7 +54,7 @@ class BundleDataset(Dataset):
             intrinsics_ratio = bundle['rgb_0']['height'] / bundle['raw_0']['height']
 
         if args.no_phone_depth:    
-            self.intrinsics = torch.tensor(np.array([bundle[f'rgb_{i}']['intrinsics'] for i in range(bundle['num_rgb_frames'])])) # T,3,3
+            self.intrinsics = torch.tensor(np.array([bundle[f'rgb_{i}']['intrinsics'] for i in range(bundle['num_rgb_frames'])])).float() # T,3,3
         else:
             self.intrinsics = torch.tensor(np.array([bundle[f'depth_{i}']['intrinsics'] for i in range(bundle['num_depth_frames'])]))
             
@@ -70,7 +76,7 @@ class BundleDataset(Dataset):
         self.reference_intrinsics = self.intrinsics[0:1]
         
         if args.no_phone_depth:
-            self.depth_volume = torch.zeros(bundle['num_raw_frames'], 1, 64, 64, dtype=torch.float32) # placeholder depth
+            self.depth_volume = torch.zeros(bundle['num_rgb_frames'], 1, 64, 64, dtype=torch.float32) # placeholder depth
         else:
             self.depth_volume = torch.tensor(np.array([bundle[f'depth_{i}']['depth'] for i in range(bundle['num_depth_frames'])]))
             self.depth_volume = 1/(self.depth_volume[:,:,:,None].permute(0,3,1,2)).float() # T,C,H,W; lidar has inverse depth
