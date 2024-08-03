@@ -1,5 +1,9 @@
 
 # Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography
+<a href="https://colab.research.google.com/github/princeton-computational-imaging/SoaP/blob/main/tutorial.ipynb" style="text-decoration: none;">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" style="height:25px;"/>
+</a>
+
 
 This is the official code repository for the work: [Shakes on a Plane: Unsupervised Depth Estimation from Unstabilized Photography](https://light.princeton.edu/publication/soap/), presented at CVPR 2023.
 
