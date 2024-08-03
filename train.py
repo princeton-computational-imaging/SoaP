@@ -535,7 +535,7 @@ if __name__ == "__main__":
     
     # dataset
     bundle_dataset = BundleDataset(args)
-    train_loader = DataLoader(bundle_dataset, batch_size=1, num_workers=32, shuffle=True)
+    train_loader = DataLoader(bundle_dataset, batch_size=1, num_workers=os.cpu_count(), shuffle=True, pin_memory=True)
 
     # model
     model = BundleMLP(args)
@@ -549,6 +549,6 @@ if __name__ == "__main__":
     lr_callback = pl.callbacks.LearningRateMonitor()
     logger = pl.loggers.TensorBoardLogger(save_dir=os.getcwd(), version=args.name, name="lightning_logs")
     validation_callback = ValidationCallback()
-    trainer = pl.Trainer(accelerator="gpu", devices=torch.cuda.device_count(), num_nodes=1, strategy="ddp", max_epochs=args.max_epochs,
+    trainer = pl.Trainer(accelerator="auto", strategy="auto", max_epochs=args.max_epochs,
                          logger=logger, callbacks=[validation_callback, lr_callback], enable_checkpointing=False)
     trainer.fit(model, train_loader)
