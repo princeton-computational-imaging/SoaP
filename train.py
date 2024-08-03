@@ -45,7 +45,8 @@ class BundleDataset(Dataset):
         self.reference_rotation = utils.convert_quaternions_to_rot(self.reference_quaternion)
         
         self.processed_rgb_volume = torch.tensor(np.array([bundle[f'rgb_{i}']['rgb'] for i in range(bundle['num_rgb_frames'])]))
-        self.processed_rgb_volume = (self.processed_rgb_volume[:,:,:,:3].permute(0,3,1,2)/255.).float() # remove alpha, make: T,C,H,W
+        self.processed_rgb_volume = (self.processed_rgb_volume[:,:,:,:3].permute(0,3,1,2)).float() # remove alpha, make: T,C,H,W
+        self.processed_rgb_volume = self.processed_rgb_volume / self.processed_rgb_volume[0].max() # scale 0-1
         
         intrinsics_ratio = 1.0
         if args.no_phone_depth and not args.no_raw: # intrinsics from RGB, but img from RAW, rescale
