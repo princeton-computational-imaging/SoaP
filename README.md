@@ -37,16 +37,13 @@ SoaP
   │   └── // folder for long-burst data
   ├── utils  
   │   └── utils.py  // network helper functions (e.g. camera projection, spline interpolation)
-  ├── 0_data_format.ipynb  // interactive tutorial for understanding long-burst data
-  ├── 1_reconstruction.ipynb  // interactive tutorial for training and depth reconstruction
+  ├── tutorial.ipynb  // interactive tutorial for training and depth reconstruction
   ├── README.md  // <- You Are Here
   ├── requirements.txt  // frozen package requirements
   └── train.py  // dataloader, network, visualization, and trainer code
   ```
 ## Getting Started:
-We recommend you start by going through `0_data_format.ipynb` to download a sample long-burst and familiarize yourself with the data contained within it.
-
-Next launch `1_reconstruction.ipynb` to train a SoaP model and visualize its outputs.
+We recommend you start by going through `tutorial.ipynb` to download a sample long-burst and familiarize yourself with the data contained within it and how to train a model with it. This tutorial is also available as a [Colab notebook](https://colab.research.google.com/github/princeton-computational-imaging/SoaP/blob/main/tutorial.ipynb).
 
 For other training arguments, see the argument parser section of `\train.py`.
 
